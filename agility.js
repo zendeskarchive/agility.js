@@ -1,3 +1,6 @@
+// Agility 0.1.0
+//
+// (c) 2012-2012 Future Simple
 var Agility = {
   start: function(start_point) {
     if (start_point) {

@@ -3,7 +3,7 @@ all:
 
 build:
 	@cat lib/agility.js lib/agility/*.js > agility.js
-	@uglifyjs -nc agility.js > agility.min.js
+	@uglifyjs agility.js > agility.min.js
 
 test:
 	@jessie spec
