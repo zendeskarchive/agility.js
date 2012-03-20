@@ -1,4 +1,4 @@
-// Agility 0.1.0
+// Agility 0.1.2
 //
 // (c) 2012-2012 Future Simple
 var Agility = {
@@ -61,6 +61,19 @@ Agility.Controller.Base = Backbone.Router.extend({
   }
 })
 Agility.Model = Backbone.Model.extend({
+  // TODO: move this to Agility.Model
+  parse: function(response) {
+    return this.namespace ? response[this.namespace] : response;
+  },
+  toJSON: function() {
+    if (this.namespace) {
+      result = {};
+      result[this.namespace] = this.attributes;
+    } else {
+      result = this.attributes;
+    };
+    return result;
+  }
 })
 Monitor = {}
 Monitor.Ajax = {
@@ -89,6 +102,15 @@ Monitor.Ajax = {
 }
 
 Agility.Router = {
+  _hook: function() {},
+  executeHook: function(route, controller_name, action_name) {
+    try {
+      if (this._hook) this._hook(route, controller_name, action_name);
+    } catch(e) {}
+  },
+  setHook: function(hook) {
+    this._hook = hook;
+  },
   route: function(route, controller_and_action) {
     if (route == '/') route = ""
     var parts           = controller_and_action.split('#');
@@ -102,6 +124,7 @@ Agility.Router = {
     if (!_.isRegExp(route)) route = controller._routeToRegExp(route);
     Backbone.history || (Backbone.history = new Backbone.History);
     Backbone.history.route(route, _.bind(function(fragment) {
+      Agility.Router.executeHook('/' + fragment, controller_name, action_name)
       var args = controller._extractParameters(route, fragment);
       action.apply(controller, args);
       controller.trigger.apply(controller, ['route:' + name].concat(args));
