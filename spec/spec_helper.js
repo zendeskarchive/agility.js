@@ -11,7 +11,7 @@ global.include = function(filename) {
 
 // jsdom
 var jsdom  = require("jsdom").jsdom,
-    doc    = jsdom('<html></html>'),
+    doc    = jsdom('<html><body><body></html>'),
     window = doc.createWindow();
 global.document = doc
 global.window = window

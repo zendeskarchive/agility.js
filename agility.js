@@ -179,11 +179,13 @@ Agility.View = Backbone.View.extend({
   appendInto: function(selector) {
     if (!this.rendered) this.render()
     $(selector).append(this.el);
+    if (this.afterDOMReady) this.afterDOMReady();
     return this;
   },
   renderInto: function(selector) {
     if (!this.rendered) this.render()
     $(selector).html(this.el)
+    if (this.afterDOMReady) this.afterDOMReady();
     return this;
   },
   navigate : function(fragment, triggerRoute) {
