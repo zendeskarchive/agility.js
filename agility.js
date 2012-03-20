@@ -160,10 +160,13 @@ Agility.Util = {
   }
 }
 Agility.View = Backbone.View.extend({
+  initialize: function(context) {
+    this.context = context;
+  },
   template: null,
   render: function() {
     if (this.template) {
-      $(this.el).html(Agility.Template.render(this.template, this.model))
+      $(this.el).html(Agility.Template.render(this.template, this.context))
       this.rendered = true;
     }
     this.afterRender()
