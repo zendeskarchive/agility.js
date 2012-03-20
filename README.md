@@ -10,11 +10,15 @@ Development
 
 Make sure you have node and npm installed. Clone the repo and run:
 
-  make setup
+```
+make setup
+```
 
 To run the build and test, simply run:
 
-  make
+```
+make
+```
 
 Copyright
 ---------
