@@ -23,5 +23,16 @@ global.$ = global.jQuery = window.$
 
 include('spec/support/underscore.js')
 include('spec/support/backbone.js')
-include('agility.min.js')
+
+if (process.env.COVERAGE) {
+  include('tmp/covered/agility.js')
+  jessie.callbacks.bind('finish', function() {
+    var Coverage = require('./support/coverage')
+    var report = new Coverage.Report()
+    report.shortReport()
+    if (process.env.LISTING) report.coverageListing()
+  })
+} else {
+  include('agility.js')
+}
 
