@@ -1,4 +1,4 @@
-// Agility 0.1.2
+// Agility 0.1.3
 //
 // (c) 2012-2012 Future Simple
 var Agility = {
