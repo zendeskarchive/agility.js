@@ -24,7 +24,6 @@ var Agility = {
   },
   hijackLinks: function() {
     $('a').live('click', function() {
-      console.log(this.href);
       var host  = window.location.host + '/'
       var regex = new RegExp(window.location.host)
       if (regex.test(this.href)) {
