@@ -30,7 +30,11 @@ if (process.env.COVERAGE) {
     var Coverage = require('./support/coverage')
     var report = new Coverage.Report()
     report.shortReport()
-    if (process.env.LISTING) report.coverageListing()
+    if (process.env.LISTING) { 
+      report.coverageListing()
+    } else {
+      console.log("Run with LISTING=true to see the coverage listing")
+    }
   })
 } else {
   include('agility.js')
