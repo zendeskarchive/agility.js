@@ -2,7 +2,7 @@ class Agility.Router
 	constructor: ->
 		this.router = new Backbone.Router
 	route: (path, action) ->
-		this.router.route path, (params...) =>
+		this.router.route path, action, (params...) =>
 			this.dispatch(action, params)
 	dispatch: (action, params) ->
 		[controller, method] = action.split("#")
