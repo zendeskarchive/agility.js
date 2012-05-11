@@ -12,4 +12,5 @@ class Agility.Application
     this.init()
 
   init: ->
-    Backbone.history.start()
+    Backbone.history.start({pushState: true, silent: true})
+    Backbone.history.loadUrl()

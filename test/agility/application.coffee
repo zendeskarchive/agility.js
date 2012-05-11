@@ -50,6 +50,7 @@ describe "Application", ->
 
 		it "starts the history", ->
 			mock = sinon.mock(Backbone.history)
-			mock.expects("start")
+			mock.expects("start").withExactArgs({pushState: true, silent: true}).once()
+			mock.expects("loadUrl").once()
 			app.init()
 			mock.verify()

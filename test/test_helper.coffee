@@ -8,3 +8,4 @@ exports.requireLib = (name) ->
 global.Agility = {}
 global.App = {}
 App.Controllers = {}
+App.Views = {}

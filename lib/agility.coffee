@@ -1,6 +1,7 @@
 this.Agility = {}
-this.App = 
+this.App =
   Controllers: {}
+  Views: {}
 
 
 
