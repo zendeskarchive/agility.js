@@ -3,11 +3,11 @@ class Agility.Application
   constructor: ->
     @router = new Agility.Router()
 
-  populatesRoutes: ->
+  populateRoutes: ->
     @router.route(path, method) for path, method of @routes
 
   run: ->
-    this.populatesRoutes()
+    this.populateRoutes()
     this.init()
 
   init: ->
