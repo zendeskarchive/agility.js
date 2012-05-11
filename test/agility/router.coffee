@@ -12,7 +12,10 @@ class App.Controllers.Home extends Agility.Controller
 		spy(foo)
 
 describe "Router", ->
-	it "accepts a path, finds a controller and calls appropriate action", ->
-		router = new Agility.Router
-		router.dispatch("Home#welcome", ["foo"])
-		assert spy.calledWith("foo")
+	it ".route"
+
+	describe ".dispatch", ->
+		it "accepts a path, finds a controller and calls appropriate action", ->
+			router = new Agility.Router
+			router.dispatch("Home#welcome", ["foo"])
+			assert spy.calledWith("foo")
