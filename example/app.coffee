@@ -1,14 +1,12 @@
 class App.Controllers.Home extends Agility.Controller
   welcome: (name) ->
-    alert(name)
+    name = name or 'stranger'
 
 class ExampleApp extends Agility.Application
   root: '#root'
-  routes: 
+  routes:
     "": "Home#welcome"
     ":name": "Home#welcome" 
 
 $ ->
-  App.instance = new ExampleApp()
-  App.instance.run()
-
+  new ExampleApp().run()

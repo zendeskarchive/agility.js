@@ -1,7 +1,6 @@
 helper = require('../test_helper')
 sinon = require('sinon')
 
-helper.prepareAgility()
 helper.requireLib('controller')
 helper.requireLib('router')
 
@@ -18,4 +17,4 @@ describe "Router", ->
 		it "accepts a path, finds a controller and calls appropriate action", ->
 			router = new Agility.Router
 			router.dispatch("Home#welcome", ["foo"])
-			assert spy.calledWith("foo")
+			assert.isTrue spy.withArgs("foo").calledOnce

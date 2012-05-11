@@ -1,7 +1,6 @@
 helper = require('../test_helper')
 sinon = require('sinon')
 
-helper.prepareAgility()
 helper.requireLib('application')
 
 class TestApp extends Agility.Application
@@ -15,7 +14,12 @@ describe "Application", ->
 	beforeEach ->
 		app = new TestApp()
 
-	describe "run", ->
+	describe "constructor", ->
+		it "created instance gets assigned to App.instance", ->
+			new_app = new TestApp()
+			assert.equal(App.instance, new_app)
+
+	describe ".run", ->
 		beforeEach ->
 			app.populateRoutes()
 
@@ -40,7 +44,7 @@ describe "Application", ->
 			app.populateRoutes()
 			mock.verify()
 
-	describe "init", ->
+	describe ".init", ->
 		beforeEach ->
 			app.populateRoutes()
 
