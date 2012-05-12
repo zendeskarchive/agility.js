@@ -6,7 +6,7 @@ helper.requireLib('view')
 
 spy = sinon.spy()
 
-class TestApp extends Agility.View
+class TestApp extends Agility.Application
   root: '#home'
 
 class App.Views.TestView extends Agility.View
