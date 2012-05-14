@@ -109,6 +109,25 @@
       return Model.__super__.constructor.apply(this, arguments);
     }
 
+    Model.prototype.parse = function(data) {
+      if (this.namespace) {
+        return data[this.namespace];
+      } else {
+        return data;
+      }
+    };
+
+    Model.prototype.toJSON = function() {
+      var result;
+      if (this.namespace) {
+        result = {};
+        result[this.namespace] = this.attributes;
+      } else {
+        result = this.attributes;
+      }
+      return result;
+    };
+
     return Model;
 
   })(Backbone.Model);
