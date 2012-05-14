@@ -62,7 +62,7 @@
     }
 
     Controller.prototype.view = function(name, params) {
-      return new App.Views[name](app, params);
+      return new App.Views[name](this.app, params);
     };
 
     return Controller;
