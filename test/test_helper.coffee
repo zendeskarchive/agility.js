@@ -5,6 +5,7 @@ global.$ = require('jquery')
 jsdom = require('jsdom')
 global.document = jsdom.jsdom('<html><body></body></html>')
 
+global.Handlebars = require("handlebars")
 global.Backbone = require('backbone')
 Backbone.setDomLibrary($)
 
