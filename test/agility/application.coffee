@@ -60,3 +60,30 @@ describe "Application", ->
       root = $('<div id="foo" />')
       root.appendTo('body')
       assert.equal(app.$rootEl().get(0), root.get(0))
+
+
+  describe "#hijackLinks", ->
+
+    it "sends link to Backbone.history", ->
+      document.body.innerHTML = '<a href="/omg">OMG</a>'
+      mock = sinon.mock(Backbone.history)
+      mock.expects('navigate').withExactArgs('omg', true)
+      $('a').trigger('click')
+      mock.verify()
+
+
+    it "ignores links to externals domain", ->
+      window.location.href="http://myapp.com"
+      window.location.host="myapp.com"
+      document.body.innerHTML = '<a href="https://google.com">OMG</a>'
+      mock = sinon.mock(Backbone.history)
+      mock.expects('navigate').never()
+      $('a').trigger('click')
+      mock.verify()
+
+    it "ignores links to #", ->
+      document.body.innerHTML = '<a href="#">OMG</a>'
+      mock = sinon.mock(Backbone.history)
+      mock.expects('navigate').never()
+      $('a').trigger('click')
+      mock.verify()

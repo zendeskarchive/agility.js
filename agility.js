@@ -55,11 +55,31 @@
         pushState: true,
         silent: true
       });
-      return Backbone.history.loadUrl();
+      Backbone.history.loadUrl();
+      return this.hijackLinks();
     };
 
     Application.prototype.$rootEl = function() {
       return $(this.root);
+    };
+
+    Application.prototype.hijackLinks = function() {
+      return $('a').live('click', function(e) {
+        var host, path, regex;
+        if ($(this).attr('href') === '#') {
+          e.preventDefault();
+          return;
+        }
+        host = window.location.host + '/';
+        regex = new RegExp(window.location.host);
+        console.log(this.href);
+        if (regex.test(this.href)) {
+          path = this.href;
+          path = path.replace(/^\//, '');
+          Backbone.history.navigate(path, true);
+          return e.preventDefault();
+        }
+      });
     };
 
     return Application;

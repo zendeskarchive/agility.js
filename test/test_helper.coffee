@@ -1,9 +1,11 @@
 global.assert = require('chai').assert
 sinon = require('sinon')
 
-global.$ = require('jquery')
 jsdom = require('jsdom')
 global.document = jsdom.jsdom('<html><body></body></html>')
+global.window   = document.createWindow();
+
+global.$ = require('jquery')
 
 global._ = require("underscore")
 global.Handlebars = require("handlebars")
