@@ -72,9 +72,8 @@
         }
         host = window.location.host + '/';
         regex = new RegExp(window.location.host);
-        console.log(this.href);
         if (regex.test(this.href)) {
-          path = this.href;
+          path = this.href.split(host).pop();
           path = path.replace(/^\//, '');
           Backbone.history.navigate(path, true);
           return e.preventDefault();

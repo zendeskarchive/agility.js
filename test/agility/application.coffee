@@ -71,6 +71,13 @@ describe "Application", ->
       $('a').trigger('click')
       mock.verify()
 
+    it "sends link to Backbone.history that are on the same domain", ->
+      window.location.host="myapp.com"
+      document.body.innerHTML = '<a href="http://myapp.com/omg">OMG</a>'
+      mock = sinon.mock(Backbone.history)
+      mock.expects('navigate').withExactArgs('omg', true)
+      $('a').trigger('click')
+      mock.verify()
 
     it "ignores links to externals domain", ->
       window.location.href="http://myapp.com"
