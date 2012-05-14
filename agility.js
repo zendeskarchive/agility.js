@@ -7,6 +7,10 @@
 
   root = this;
 
+  if (typeof exports !== "undefined" && exports !== null) {
+    root = exports;
+  }
+
   Agility = {};
 
   App = {
@@ -16,10 +20,9 @@
     Models: {}
   };
 
-  if (typeof exports !== "undefined" && exports !== null) {
-    exports.Agility = Agility;
-    exports.App = App;
-  }
+  root.Agility = Agility;
+
+  root.App = App;
 
   Agility.Application = (function() {
 

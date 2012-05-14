@@ -1,4 +1,5 @@
 root = this
+root = exports if exports?
 
 Agility = {}
 App =
@@ -7,6 +8,5 @@ App =
   Views: {}
   Models: {}
 
-if exports?
-  exports.Agility = Agility
-  exports.App     = App
+root.Agility = Agility
+root.App     = App
