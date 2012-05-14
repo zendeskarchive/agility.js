@@ -3,9 +3,9 @@ Agility.Template =
   clearTemplates: ->
     this.templates = {}
   register: (name, html) ->
-    this.templates[name] = Handlebars.compile(html)
+    Handlebars.templates[name] = Handlebars.compile(html)
   find: (name) ->
-    this.templates[name]
+    Handlebars.templates[name]
   render: (name, data, options) ->
     template = this.find(name)
     if template
