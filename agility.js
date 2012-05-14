@@ -233,6 +233,10 @@
       return this.$el.html(html);
     };
 
+    View.prototype.attachToRoot = function() {
+      return this.appRoot().html(this.$el);
+    };
+
     return View;
 
   })(Backbone.View);

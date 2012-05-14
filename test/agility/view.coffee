@@ -43,3 +43,11 @@ describe "View", ->
       @view.render()
       assert.equal(@view.$el.text(), "hello Mike")
 
+  describe "attachToRoot", ->
+    it "attaches the view element to app root", ->
+      root = { html: -> }
+      mock = sinon.mock(root).expects('html').withExactArgs(@view.$el).once()
+      stub = sinon.stub(@view, "appRoot").returns(root)
+      @view.attachToRoot()
+      mock.verify()
+
