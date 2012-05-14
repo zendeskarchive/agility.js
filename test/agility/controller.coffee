@@ -24,3 +24,4 @@ describe "Controller", ->
       callback = ->
         controller.view('Unknown')
       assert.throw callback, Error
+      
