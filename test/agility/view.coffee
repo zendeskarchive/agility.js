@@ -1,17 +1,17 @@
 helper = require('../test_helper')
 sinon = require('sinon')
 
-helper.requireLib('application')
 helper.requireLib('view')
 
-spy = sinon.spy()
+root = sinon.mock()
+rootEl = sinon.stub()
+rootEl.returns(root)
+app = { $rootEl: rootEl }
 
-class TestApp extends Agility.Application
-  root: '#home'
-
-class App.Views.TestView extends Agility.View
+class App.Views.Test extends Agility.View
 
 describe "View", ->
 	describe ".appRoot", ->
-		it "returns application root element"
-
+		it "returns application root element", ->
+      view = new App.Views.Test(app)
+      assert.equal(view.appRoot(), root)

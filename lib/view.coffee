@@ -1,3 +1,6 @@
 class Agility.View extends Backbone.View
+  constructor: (app, options...) ->
+    @app = app
+    super(options...)
   appRoot: ->
-    App.instance.root
+    @app.$rootEl()

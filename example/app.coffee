@@ -8,6 +8,7 @@ class App.Views.Welcome extends Agility.View
 class App.Controllers.Home extends Agility.Controller
   welcome: (name) ->
     name = name or 'stranger'
+    x = this.view('Welcome', {})
     new App.Views.Welcome(name).render()
 
 

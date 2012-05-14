@@ -1,8 +1,7 @@
 class Agility.Application
   routes: {}
   constructor: ->
-    @router = new Agility.Router()
-    App.instance = this
+    @router = new Agility.Router(this)
 
   populateRoutes: ->
     @router.route(path, method) for path, method of @routes
@@ -14,3 +13,6 @@ class Agility.Application
   init: ->
     Backbone.history.start({pushState: true, silent: true})
     Backbone.history.loadUrl()
+
+  $rootEl: ->
+    $(@root)
