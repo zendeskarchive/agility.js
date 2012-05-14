@@ -12,7 +12,8 @@
   App = {
     Controllers: {},
     Collections: {},
-    Views: {}
+    Views: {},
+    Models: {}
   };
 
   if (typeof exports !== "undefined" && exports !== null) {
@@ -97,6 +98,20 @@
     return Controller;
 
   })();
+
+  Agility.Model = (function(_super) {
+
+    __extends(Model, _super);
+
+    Model.name = 'Model';
+
+    function Model() {
+      return Model.__super__.constructor.apply(this, arguments);
+    }
+
+    return Model;
+
+  })(Backbone.Model);
 
   Agility.Router = (function() {
 
