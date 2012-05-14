@@ -18,3 +18,9 @@ describe "Controller", ->
       controller = new App.Controllers.Test(app)
       view = controller.view('Test')
       assert.equal(app, view.app)
+
+    it "throws an error if view is not found", ->
+      controller = new App.Controllers.Test(app)
+      callback = ->
+        controller.view('Unknown')
+      assert.throw callback, Error

@@ -11,5 +11,5 @@ Agility.Template =
     if template
       template(data, options)
     else
-      throw "Template #{name} not found"
+      throw new Error("Template #{name} not found")
 
