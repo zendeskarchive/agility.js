@@ -5,6 +5,7 @@ global.$ = require('jquery')
 jsdom = require('jsdom')
 global.document = jsdom.jsdom('<html><body></body></html>')
 
+global._ = require("underscore")
 global.Handlebars = require("handlebars")
 Handlebars.templates = Handlebars.templates || {}
 
