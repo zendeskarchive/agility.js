@@ -137,6 +137,10 @@
       return this.app.$rootEl();
     };
 
+    View.prototype.extraContext = function() {
+      return {};
+    };
+
     View.prototype.render = function() {
       var context, html;
       context = _.extend({}, this.options, this.extraContext());

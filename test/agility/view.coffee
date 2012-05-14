@@ -12,6 +12,9 @@ app = { $rootEl: rootEl }
 Agility.Template.register "test", "hello {{name}}"
 Agility.Template.register "welcome", "{{hello}} {{name}}"
 
+class App.Views.DefaultsTest extends Agility.View
+  template: "test"
+
 class App.Views.Test extends Agility.View
   template: "test"
   extraContext: ->
@@ -35,4 +38,8 @@ describe "View", ->
       @view.render()
       assert.equal(@view.$el.text(), "Yo Tom")
 
+    it "works even if extraContext is not defined", ->
+      @view = new App.Views.DefaultsTest(app, { name: "Mike" })
+      @view.render()
+      assert.equal(@view.$el.text(), "hello Mike")
 
