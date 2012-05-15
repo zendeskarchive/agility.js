@@ -4,11 +4,10 @@ class Agility.View extends Backbone.View
     super(options...)
   appRoot: ->
     @app.$rootEl()
-  extraContext: ->
-    {}
-  render: ->
-    context = _.extend({}, @options, this.extraContext())
+  renderTemplate: (context) =>
     html = Agility.Template.render(@template, context)
     this.$el.html(html)
   attachToRoot: ->
-    this.appRoot().html(this.$el)
+    root = this.appRoot()
+    root.empty()
+    root.append(this.$el)

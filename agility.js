@@ -3,7 +3,8 @@
   var Agility, App, root,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
-    __slice = [].slice;
+    __slice = [].slice,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   root = this;
 
@@ -107,11 +108,11 @@
       this.app = app;
     }
 
-    Controller.prototype.view = function(name, params) {
+    Controller.prototype.view = function(name, options) {
       var view_class;
       view_class = App.Views[name];
       if (view_class != null) {
-        return new view_class(this.app, params);
+        return new view_class(this.app, options);
       } else {
         throw new Error("View " + name + " not found");
       }
@@ -214,6 +215,8 @@
     function View() {
       var app, options;
       app = arguments[0], options = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      this.renderTemplate = __bind(this.renderTemplate, this);
+
       this.app = app;
       View.__super__.constructor.apply(this, options);
     }
@@ -222,19 +225,16 @@
       return this.app.$rootEl();
     };
 
-    View.prototype.extraContext = function() {
-      return {};
-    };
-
-    View.prototype.render = function() {
-      var context, html;
-      context = _.extend({}, this.options, this.extraContext());
+    View.prototype.renderTemplate = function(context) {
+      var html;
       html = Agility.Template.render(this.template, context);
       return this.$el.html(html);
     };
 
     View.prototype.attachToRoot = function() {
-      return this.appRoot().html(this.$el);
+      root = this.appRoot();
+      root.empty();
+      return root.append(this.$el);
     };
 
     return View;
