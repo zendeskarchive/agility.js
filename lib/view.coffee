@@ -9,5 +9,9 @@ class Agility.View extends Backbone.View
     this.$el.html(html)
   attachToRoot: ->
     root = this.appRoot()
-    root.empty()
-    root.append(this.$el)
+    unless this.isAttachedToRoot() 
+      root.empty()
+      root.append(this.$el)
+  isAttachedToRoot: ->
+    this.$el.parent().is(root)
+

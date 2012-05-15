@@ -233,8 +233,14 @@
 
     View.prototype.attachToRoot = function() {
       root = this.appRoot();
-      root.empty();
-      return root.append(this.$el);
+      if (!this.isAttachedToRoot()) {
+        root.empty();
+        return root.append(this.$el);
+      }
+    };
+
+    View.prototype.isAttachedToRoot = function() {
+      return this.$el.parent().is(root);
     };
 
     return View;
