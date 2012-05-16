@@ -11,9 +11,7 @@ class App.Views.Test extends Agility.View
 app = sinon.mock()
 
 describe "Controller", ->
-
   describe "view", ->
-
     it "instantiates appropriate view", ->
       controller = new App.Controllers.Test(app)
       view = controller.view('Test')

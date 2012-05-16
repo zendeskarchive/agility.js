@@ -243,6 +243,16 @@
       return this.$el.parent().is(root);
     };
 
+    View.prototype.view = function(name, options) {
+      var view_class;
+      view_class = App.Views[name];
+      if (view_class != null) {
+        return new view_class(this.app, options);
+      } else {
+        throw new Error("View " + name + " not found");
+      }
+    };
+
     return View;
 
   })(Backbone.View);

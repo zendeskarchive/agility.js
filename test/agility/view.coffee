@@ -46,4 +46,13 @@ describe "View", ->
       @view.attachToRoot()
       mock.verify()
 
+  describe "view", ->
+    it "instantiates appropriate view", ->
+      child_view = @view.view('Test')
+      assert.equal(child_view.app, @view.app)
 
+    it "throws an error if view is not found", ->
+      callback = =>
+        @view.view('Unknown')
+      assert.throw callback, Error
+      
