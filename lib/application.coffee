@@ -6,14 +6,20 @@ class Agility.Application
   populateRoutes: ->
     @router.route(path, method) for path, method of @routes
 
-  run: ->
-    this.populateRoutes()
-    this.init()
+  preBoot: (proceed) ->
+    proceed()
 
-  init: ->
+  run: ->
+    this.preBoot(this.initApplication)
+
+  initApplication: =>
+    this.populateRoutes()
+    this.initNavigation()
+    this.hijackLinks()
+
+  initNavigation: ->
     Backbone.history.start({pushState: true, silent: true})
     Backbone.history.loadUrl()
-    this.hijackLinks()
 
   $rootEl: ->
     $(@root)

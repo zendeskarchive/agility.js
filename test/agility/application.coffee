@@ -20,20 +20,43 @@ describe "Application", ->
       assert.equal(new_app.router.app, new_app)
 
   describe ".run", ->
+    it "calls preBoot with initApplication callback", ->
+      app_mock = sinon.mock(app)
+      app_mock.expects('preBoot').withArgs(app.initApplication).once()
+      app.run()
+      app_mock.verify()
+
+  describe ".preBoot", ->
+    it "calls passed callback", ->
+      callback = sinon.mock().once()
+      app.preBoot(callback)
+      callback.verify()
+
+  describe ".initApplication", ->
     beforeEach ->
       app.populateRoutes()
 
     it "calls populateRoutes", ->
-      sinon.stub(app, 'init')
+      sinon.stub(app, 'initNavigation')
+      sinon.stub(app, 'hijackLinks')
       mock = sinon.mock(app)
       mock.expects('populateRoutes')
       app.run()
       mock.verify()
 
-    it "calls init", ->
+    it "calls initNavigation", ->
       sinon.stub(app, 'populateRoutes')
+      sinon.stub(app, 'hijackLinks')
       mock = sinon.mock(app)
-      mock.expects('init')
+      mock.expects('initNavigation')
+      app.run()
+      mock.verify()
+
+    it "calls hijackLinks", ->
+      sinon.stub(app, 'populateRoutes')
+      sinon.stub(app, 'initNavigation')
+      mock = sinon.mock(app)
+      mock.expects('hijackLinks')
       app.run()
       mock.verify()
 
@@ -44,15 +67,16 @@ describe "Application", ->
       app.populateRoutes()
       mock.verify()
 
-  describe ".init", ->
+  describe ".initNavigation", ->
     beforeEach ->
       app.populateRoutes()
+      app.hijackLinks()
 
     it "starts the history", ->
       mock = sinon.mock(Backbone.history)
       mock.expects("start").withExactArgs({pushState: true, silent: true}).once()
       mock.expects("loadUrl").once()
-      app.init()
+      app.initNavigation()
       mock.verify()
 
   describe ".rootEl", ->
@@ -63,7 +87,6 @@ describe "Application", ->
 
 
   describe "#hijackLinks", ->
-
     it "sends link to Backbone.history", ->
       document.body.innerHTML = '<a href="/omg">OMG</a>'
       mock = sinon.mock(Backbone.history)
