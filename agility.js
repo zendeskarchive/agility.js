@@ -141,6 +141,12 @@
       return Model.__super__.constructor.apply(this, arguments);
     }
 
+    Model.prototype.urlSuffix = '';
+
+    Model.prototype.url = function() {
+      return Model.__super__.url.call(this) + this.urlSuffix;
+    };
+
     Model.prototype.parse = function(data) {
       if (this.namespace) {
         return data[this.namespace];

@@ -1,4 +1,7 @@
 class Agility.Model extends Backbone.Model
+  urlSuffix: '',
+  url: ->
+    super() + this.urlSuffix
   parse: (data) ->
     if @namespace then data[@namespace] else data
   toJSON: ->
