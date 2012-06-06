@@ -19,7 +19,10 @@ class Agility.Application
 
   initNavigation: ->
     Backbone.history.start({pushState: true, silent: true})
-    Backbone.history.loadUrl()
+    Backbone.history.loadUrl(this.startPoint())
+
+  startPoint: ->
+    null
 
   $rootEl: ->
     $(@root)

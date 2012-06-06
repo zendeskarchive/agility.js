@@ -66,7 +66,11 @@
         pushState: true,
         silent: true
       });
-      return Backbone.history.loadUrl();
+      return Backbone.history.loadUrl(this.startPoint());
+    };
+
+    Application.prototype.startPoint = function() {
+      return null;
     };
 
     Application.prototype.$rootEl = function() {

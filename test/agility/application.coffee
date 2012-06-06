@@ -68,17 +68,21 @@ describe "Application", ->
       mock.verify()
 
   describe ".initNavigation", ->
-    beforeEach ->
-      app.populateRoutes()
-      app.hijackLinks()
 
     it "starts the history", ->
       mock = sinon.mock(Backbone.history)
       mock.expects("start").withExactArgs({pushState: true, silent: true}).once()
-      mock.expects("loadUrl").once()
+      mock_app = sinon.mock(app)
+      start_point = sinon.mock({})
+      mock_app.expects('startPoint').returns(start_point)
+      mock.expects("loadUrl").withExactArgs(start_point).once()
       app.initNavigation()
       mock.verify()
+      mock_app.verify()
 
+  describe '.startPoint', ->
+    it "returns null by default", ->
+      assert.equal(null, app.startPoint())
   describe ".rootEl", ->
     it "returns jQuery element from root selector", ->
       root = $('<div id="foo" />')
@@ -87,6 +91,15 @@ describe "Application", ->
 
 
   describe "#hijackLinks", ->
+    beforeEach ->
+      # unbind live listeners
+      $(document).unbind("click")
+      app.hijackLinks()
+      Backbone.original_history = Backbone.history
+      Backbone.history = { navigate: -> }
+    afterEach ->
+      Backbone.history = Backbone.original_history
+
     it "sends link to Backbone.history", ->
       document.body.innerHTML = '<a href="/omg">OMG</a>'
       mock = sinon.mock(Backbone.history)
