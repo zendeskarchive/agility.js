@@ -244,6 +244,10 @@
       return this.app.$rootEl();
     };
 
+    View.prototype.render = function() {
+      return this.renderTemplate(this.options);
+    };
+
     View.prototype.renderTemplate = function(context) {
       var html;
       html = Agility.Template.render(this.template, context);

@@ -24,6 +24,11 @@ describe "View", ->
     it "returns application root element", ->
       assert.equal(@view.appRoot(), @root)
 
+  describe ".render", ->
+    it "renders using the passed options by default", ->
+      @view.render({ name: "Tom" })
+      assert.equal(@view.$el.text(), "Hello Tom")
+
   describe ".renderTemplate", ->
     it "renders html with given context", ->
       @view.renderTemplate({ name: "Tom" })
