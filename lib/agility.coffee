@@ -7,6 +7,7 @@ App =
   Collections: {}
   Views: {}
   Models: {}
+  Helpers: {}
 
 root.Agility = Agility
 root.App     = App
