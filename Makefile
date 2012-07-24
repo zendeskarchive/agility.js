@@ -7,4 +7,3 @@ demo:
 	node_modules/.bin/coffee -c -j example/js/app.js example/app.coffee
 compile:
 	node_modules/.bin/coffee -c -j agility.js lib/*.coffee
-	

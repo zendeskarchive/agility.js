@@ -18,7 +18,8 @@
     Controllers: {},
     Collections: {},
     Views: {},
-    Models: {}
+    Models: {},
+    Helpers: {}
   };
 
   root.Agility = Agility;
