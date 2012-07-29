@@ -171,6 +171,10 @@
       return result;
     };
 
+    Model.prototype.className = function() {
+      return this.constructor.name;
+    };
+
     return Model;
 
   })(Backbone.Model);

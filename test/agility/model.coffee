@@ -35,3 +35,9 @@ describe "Agility.Model", ->
       model = new NormalModel(params)
       assert.deepEqual model.toJSON(), params
 
+  describe "className", ->
+
+    it "returns the name of the model's class", ->
+      model = new NamespacedModel()
+      assert.equal model.className(), "NamespacedModel"
+
