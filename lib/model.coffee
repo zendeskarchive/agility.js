@@ -11,3 +11,6 @@ class Agility.Model extends Backbone.Model
     else
       result = this.attributes
     result
+  className: ->
+    this.constructor.name
+

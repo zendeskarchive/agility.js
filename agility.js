@@ -171,6 +171,10 @@
       return result;
     };
 
+    Model.prototype.className = function() {
+      return this.constructor.name;
+    };
+
     return Model;
 
   })(Backbone.Model);
@@ -261,9 +265,11 @@
     };
 
     View.prototype.render = function() {
-      if (this.template) {
-        return this.renderTemplate(this.options);
-      }
+      return this.renderTemplate(this.templateContext());
+    };
+
+    View.prototype.templateContext = function() {
+      return this.options;
     };
 
     View.prototype.renderTemplate = function(context) {
