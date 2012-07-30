@@ -180,6 +180,13 @@
     Router.name = 'Router';
 
     function Router(app) {
+      this.off = __bind(this.off, this);
+
+      this.on = __bind(this.on, this);
+
+      this.dispatch = __bind(this.dispatch, this);
+
+      this.route = __bind(this.route, this);
       this.router = new Backbone.Router;
       this.app = app;
     }
@@ -198,6 +205,14 @@
       _ref = action.split("#"), controller = _ref[0], method = _ref[1];
       instance = new App.Controllers[controller](this.app);
       return instance[method].apply(instance, params);
+    };
+
+    Router.prototype.on = function(event, callback) {
+      return this.router.on(event, callback);
+    };
+
+    Router.prototype.off = function(event, callback) {
+      return this.router.off(event, callback);
     };
 
     return Router;
@@ -246,7 +261,9 @@
     };
 
     View.prototype.render = function() {
-      return this.renderTemplate(this.options);
+      if (this.template) {
+        return this.renderTemplate(this.options);
+      }
     };
 
     View.prototype.renderTemplate = function(context) {

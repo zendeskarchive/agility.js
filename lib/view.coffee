@@ -5,7 +5,8 @@ class Agility.View extends Backbone.View
   appRoot: ->
     @app.$rootEl()
   render: ->
-    this.renderTemplate(this.options)
+    if this.template
+      this.renderTemplate(this.options)
   renderTemplate: (context) =>
     html = Agility.Template.render(@template, context)
     this.$el.html(html)

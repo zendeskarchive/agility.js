@@ -31,3 +31,36 @@ describe "Router", ->
     it "passes app to controller instance", ->
       router.dispatch("Home#getApp", [])
       assert.isTrue spy.withArgs(app).calledOnce
+
+  describe ".on", ->
+    router = null
+
+    beforeEach ->
+      app.restore
+      router = new Agility.Router(app)
+
+    it "delegates to Backbone router", ->
+      event = "route"
+      callback = ->
+      mock = sinon.mock(router.router)
+      mock.expects("on").withArgs(event, callback)
+      router.on(event, callback)
+      mock.verify()
+
+
+  describe ".off", ->
+    router = null
+
+    beforeEach ->
+      app.restore
+      router = new Agility.Router(app)
+
+    it "delegates to Backbone router", ->
+      event = "route"
+      callback = ->
+      mock = sinon.mock(router.router)
+      mock.expects("off").withArgs(event, callback)
+      router.off(event, callback)
+      mock.verify()
+
+
