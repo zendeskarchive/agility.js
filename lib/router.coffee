@@ -6,10 +6,9 @@ class Agility.Router
     this.router.route path, action, (params...) =>
       this.dispatch(action, params)
   dispatch: (action, params) =>
+    this.trigger("route")
     [controller, method] = action.split("#")
     instance = new App.Controllers[controller](@app)
     instance[method].apply(instance, params)
-  on: (event, callback) =>
-    @router.on(event, callback)
-  off: (event, callback) =>
-    @router.off(event, callback)
+
+_.extend(Agility.Router.prototype, Backbone.Events)

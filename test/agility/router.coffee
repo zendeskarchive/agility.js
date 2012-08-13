@@ -32,35 +32,31 @@ describe "Router", ->
       router.dispatch("Home#getApp", [])
       assert.isTrue spy.withArgs(app).calledOnce
 
-  describe ".on", ->
-    router = null
-
-    beforeEach ->
-      app.restore
-      router = new Agility.Router(app)
-
-    it "delegates to Backbone router", ->
+    it "dispatches route event", ->
       event = "route"
-      callback = ->
-      mock = sinon.mock(router.router)
-      mock.expects("on").withArgs(event, callback)
+      callback = sinon.spy()
       router.on(event, callback)
-      mock.verify()
+      router.dispatch("Home#welcome")
+      assert.isTrue(callback.calledOnce)
 
-
-  describe ".off", ->
+  describe "events handling", ->
     router = null
 
     beforeEach ->
       app.restore
       router = new Agility.Router(app)
 
-    it "delegates to Backbone router", ->
+    it "calls bound callback", ->
       event = "route"
-      callback = ->
-      mock = sinon.mock(router.router)
-      mock.expects("off").withArgs(event, callback)
+      callback = sinon.spy()
+      router.on(event, callback)
+      router.trigger(event)
+      assert.isTrue(callback.calledOnce)
+
+    it "allows to unbind callback", ->
+      event = "route"
+      callback = sinon.spy()
+      router.on(event, callback)
       router.off(event, callback)
-      mock.verify()
-
-
+      router.trigger(event)
+      assert.isFalse(callback.called)

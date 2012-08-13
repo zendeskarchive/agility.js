@@ -184,10 +184,6 @@
     Router.name = 'Router';
 
     function Router(app) {
-      this.off = __bind(this.off, this);
-
-      this.on = __bind(this.on, this);
-
       this.dispatch = __bind(this.dispatch, this);
 
       this.route = __bind(this.route, this);
@@ -206,22 +202,17 @@
 
     Router.prototype.dispatch = function(action, params) {
       var controller, instance, method, _ref;
+      this.trigger("route");
       _ref = action.split("#"), controller = _ref[0], method = _ref[1];
       instance = new App.Controllers[controller](this.app);
       return instance[method].apply(instance, params);
     };
 
-    Router.prototype.on = function(event, callback) {
-      return this.router.on(event, callback);
-    };
-
-    Router.prototype.off = function(event, callback) {
-      return this.router.off(event, callback);
-    };
-
     return Router;
 
   })();
+
+  _.extend(Agility.Router.prototype, Backbone.Events);
 
   Agility.Template = {
     templates: {},
