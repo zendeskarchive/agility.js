@@ -245,7 +245,19 @@
     function View() {
       var app, options;
       app = arguments[0], options = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      this.view = __bind(this.view, this);
+
+      this.isAttachedToRoot = __bind(this.isAttachedToRoot, this);
+
+      this.attachToRoot = __bind(this.attachToRoot, this);
+
       this.renderTemplate = __bind(this.renderTemplate, this);
+
+      this.templateContext = __bind(this.templateContext, this);
+
+      this.render = __bind(this.render, this);
+
+      this.appRoot = __bind(this.appRoot, this);
 
       this.app = app;
       View.__super__.constructor.apply(this, options);

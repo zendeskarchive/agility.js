@@ -2,23 +2,23 @@ class Agility.View extends Backbone.View
   constructor: (app, options...) ->
     @app = app
     super(options...)
-  appRoot: ->
+  appRoot: =>
     @app.$rootEl()
-  render: ->
+  render: =>
     this.renderTemplate(this.templateContext())
-  templateContext: ->
+  templateContext: =>
     this.options
   renderTemplate: (context) =>
     html = Agility.Template.render(@template, context)
     this.$el.html(html)
-  attachToRoot: ->
+  attachToRoot: =>
     root = this.appRoot()
     unless this.isAttachedToRoot()
       root.empty()
       root.append(this.$el)
-  isAttachedToRoot: ->
+  isAttachedToRoot: =>
     this.$el.parent().is(root)
-  view: (name, options) ->
+  view: (name, options) =>
     view_class = App.Views[name]
     if view_class?
       new view_class(@app, options)
