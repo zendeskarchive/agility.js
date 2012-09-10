@@ -5,6 +5,11 @@ class Agility.Application
 
   populateRoutes: ->
     @router.route(path, method) for path, method of @routes
+    this.bindNotFound()
+
+  bindNotFound: =>
+    if this.notFoundAction
+      @router.route("*path", this.notFoundAction)
 
   preBoot: (proceed) ->
     proceed()

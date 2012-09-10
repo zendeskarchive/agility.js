@@ -34,18 +34,25 @@
 
     function Application() {
       this.initApplication = __bind(this.initApplication, this);
+
+      this.bindNotFound = __bind(this.bindNotFound, this);
       this.router = new Agility.Router(this);
     }
 
     Application.prototype.populateRoutes = function() {
-      var method, path, _ref, _results;
+      var method, path, _ref;
       _ref = this.routes;
-      _results = [];
       for (path in _ref) {
         method = _ref[path];
-        _results.push(this.router.route(path, method));
+        this.router.route(path, method);
       }
-      return _results;
+      return this.bindNotFound();
+    };
+
+    Application.prototype.bindNotFound = function() {
+      if (this.notFoundAction) {
+        return this.router.route("*path", this.notFoundAction);
+      }
     };
 
     Application.prototype.preBoot = function(proceed) {
