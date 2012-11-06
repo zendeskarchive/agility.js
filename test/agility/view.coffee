@@ -8,7 +8,7 @@ Agility.Template.register "welcome", "Hello {{name}}"
 
 class App.Views.Test extends Agility.View
   template: "welcome"
-  
+
 describe "View", ->
   beforeEach ->
     @root = {
@@ -25,9 +25,14 @@ describe "View", ->
       assert.equal(@view.appRoot(), @root)
 
   describe ".render", ->
-    it "renders using the passed options by default", ->
-      @view.render({ name: "Tom" })
-      assert.equal(@view.$el.text(), "Hello Tom")
+    it "renders using templateContext", ->
+      sinon.stub(@view, "templateContext").returns({ name: "Mike" })
+      @view.render()
+      assert.equal(@view.$el.text(), "Hello Mike")
+
+  describe ".templateContext", ->
+    it "returns empty object", ->
+      assert.deepEqual(@view.templateContext(), {})
 
   describe ".renderTemplate", ->
     it "renders html with given context", ->
@@ -60,4 +65,4 @@ describe "View", ->
       callback = =>
         @view.view('Unknown')
       assert.throw callback, Error
-      
+

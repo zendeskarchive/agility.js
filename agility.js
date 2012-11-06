@@ -279,7 +279,7 @@
     };
 
     View.prototype.templateContext = function() {
-      return this.options;
+      return {};
     };
 
     View.prototype.renderTemplate = function(context) {
