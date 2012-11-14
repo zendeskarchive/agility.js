@@ -9,6 +9,8 @@ Agility.Template.register "welcome", "Hello {{name}}"
 class App.Views.Test extends Agility.View
   template: "welcome"
 
+class App.Views.OtherTest extends Agility.View
+
 describe "View", ->
   beforeEach ->
     @root = {
@@ -25,10 +27,17 @@ describe "View", ->
       assert.equal(@view.appRoot(), @root)
 
   describe ".render", ->
-    it "renders using templateContext", ->
+    it "renders defined template using templateContext", ->
       sinon.stub(@view, "templateContext").returns({ name: "Mike" })
       @view.render()
       assert.equal(@view.$el.text(), "Hello Mike")
+
+    context "template property missing", ->
+      it "does not render anything", ->
+        @view.template = null
+        @view.render()
+        assert.equal(@view.$el.text(), "")
+
 
   describe ".templateContext", ->
     it "returns empty object", ->
@@ -57,12 +66,45 @@ describe "View", ->
       mock.verify()
 
   describe "view", ->
-    it "instantiates appropriate view", ->
-      child_view = @view.view('Test')
-      assert.equal(child_view.app, @view.app)
+    context "view class exists", ->
+      beforeEach ->
+        @child = @view.view('OtherTest')
 
-    it "throws an error if view is not found", ->
-      callback = =>
-        @view.view('Unknown')
-      assert.throw callback, Error
+      it "instantiates appropriate view", ->
+        assert.instanceOf(@child, App.Views.OtherTest)
+
+      it "passes app instance", ->
+        assert.equal(@child.app, @view.app)
+
+      it "adds child to childViews", ->
+        assert.include(@view.childViews, @child)
+
+    context "view class does not exist", ->
+      it "throws an error if view is not found", ->
+        callback = =>
+          @view.view('Unknown')
+        assert.throw callback, Error
+
+  describe "performDestroy", ->
+    it "calls destroy on self", ->
+      mock = sinon.mock(@view)
+      mock.expects("destroy")
+      @view.performDestroy()
+      mock.verify()
+
+    it "calls performDestroy on all child views", ->
+      child = @view.view('OtherTest')
+      mocks = _.map(@view.childViews, (view) ->
+        mock = sinon.mock(view)
+        mock.expects("performDestroy")
+        mock
+      )
+      @view.performDestroy()
+      _.invoke(mocks, "verify")
+
+  describe "destroy", ->
+    it "is noop", ->
+      @view.destroy()
+
+
 

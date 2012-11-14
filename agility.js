@@ -252,6 +252,10 @@
     function View() {
       var app, options;
       app = arguments[0], options = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      this.destroy = __bind(this.destroy, this);
+
+      this.performDestroy = __bind(this.performDestroy, this);
+
       this.view = __bind(this.view, this);
 
       this.isAttachedToRoot = __bind(this.isAttachedToRoot, this);
@@ -267,6 +271,7 @@
       this.appRoot = __bind(this.appRoot, this);
 
       this.app = app;
+      this.childViews = [];
       View.__super__.constructor.apply(this, options);
     }
 
@@ -275,7 +280,9 @@
     };
 
     View.prototype.render = function() {
-      return this.renderTemplate(this.templateContext());
+      if (this.template) {
+        return this.renderTemplate(this.templateContext());
+      }
     };
 
     View.prototype.templateContext = function() {
@@ -301,14 +308,23 @@
     };
 
     View.prototype.view = function(name, options) {
-      var view_class;
+      var view, view_class;
       view_class = App.Views[name];
       if (view_class != null) {
-        return new view_class(this.app, options);
+        view = new view_class(this.app, options);
+        this.childViews.push(view);
+        return view;
       } else {
         throw new Error("View " + name + " not found");
       }
     };
+
+    View.prototype.performDestroy = function() {
+      this.destroy();
+      return _.invoke(this.childViews, "performDestroy");
+    };
+
+    View.prototype.destroy = function() {};
 
     return View;
 
