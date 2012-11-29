@@ -85,6 +85,30 @@ describe "View", ->
           @view.view('Unknown')
         assert.throw callback, Error
 
+  describe "renderView", ->
+    selector = "#foo"
+    viewName = "Bar"
+    opts = {foo: "bar"}
+    childViewElement = {}
+    childView = {el: childViewElement, render: ->}
+    element = {html: =>}
+
+    it "instantiates correct view and puts it to selected element", ->
+      viewMock = sinon.mock(@view)
+      viewMock.expects("view").withExactArgs(viewName, opts).returns(childView)
+      viewMock.expects("$").withExactArgs(selector).returns(element)
+      elementMock = sinon.mock(element)
+      elementMock.expects("html").withExactArgs(childViewElement)
+      childViewMock = sinon.mock(childView)
+      childViewMock.expects("render")
+
+      @view.renderView(selector, viewName, opts)
+
+      viewMock.verify()
+      elementMock.verify()
+      childViewMock.verify()
+
+
   describe "performDestroy", ->
     it "calls destroy on self", ->
       mock = sinon.mock(@view)

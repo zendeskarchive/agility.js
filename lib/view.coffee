@@ -27,6 +27,11 @@ class Agility.View extends Backbone.View
   isAttachedToRoot: =>
     this.$el.parent().is(root)
 
+  renderView: (selector, name, params) =>
+    view = this.view(name, params)
+    this.$(selector).html(view.el)
+    view.render()
+
   view: (name, options) =>
     view_class = App.Views[name]
     if view_class?

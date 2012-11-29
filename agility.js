@@ -258,6 +258,8 @@
 
       this.view = __bind(this.view, this);
 
+      this.renderView = __bind(this.renderView, this);
+
       this.isAttachedToRoot = __bind(this.isAttachedToRoot, this);
 
       this.attachToRoot = __bind(this.attachToRoot, this);
@@ -305,6 +307,13 @@
 
     View.prototype.isAttachedToRoot = function() {
       return this.$el.parent().is(root);
+    };
+
+    View.prototype.renderView = function(selector, name, params) {
+      var view;
+      view = this.view(name, params);
+      this.$(selector).html(view.el);
+      return view.render();
     };
 
     View.prototype.view = function(name, options) {
