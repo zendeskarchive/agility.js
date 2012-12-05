@@ -23,6 +23,7 @@ describe "Router", ->
     beforeEach ->
       app.restore
       router = new Agility.Router(app)
+      app.router = router
 
     it "calls appropriate action", ->
       router.dispatch("Home#welcome", ["foo"])
