@@ -120,18 +120,33 @@
   Agility.Controller = (function() {
 
     function Controller(app) {
+      this.destroy = __bind(this.destroy, this);
+
+      this.performDestroy = __bind(this.performDestroy, this);
       this.app = app;
+      this.childViews = [];
+      this.app.router.on('route', this.performDestroy);
     }
 
     Controller.prototype.view = function(name, options) {
-      var view_class;
+      var view, view_class;
       view_class = App.Views[name];
       if (view_class != null) {
-        return new view_class(this.app, options);
+        view = new view_class(this.app, options);
+        this.childViews.push(view);
+        return view;
       } else {
         throw new Error("View " + name + " not found");
       }
     };
+
+    Controller.prototype.performDestroy = function() {
+      this.app.router.off('route', this.performDestroy);
+      this.destroy();
+      return _.invoke(this.childViews, "performDestroy");
+    };
+
+    Controller.prototype.destroy = function() {};
 
     return Controller;
 
