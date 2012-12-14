@@ -31,6 +31,7 @@ class Agility.View extends Backbone.View
     view = this.view(name, params)
     this.$(selector).html(view.el)
     view.render()
+    view
 
   view: (name, options) =>
     view_class = App.Views[name]

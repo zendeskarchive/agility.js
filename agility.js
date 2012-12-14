@@ -301,7 +301,8 @@
       var view;
       view = this.view(name, params);
       this.$(selector).html(view.el);
-      return view.render();
+      view.render();
+      return view;
     };
 
     View.prototype.view = function(name, options) {

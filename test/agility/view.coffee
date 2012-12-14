@@ -102,7 +102,9 @@ describe "View", ->
       childViewMock = sinon.mock(childView)
       childViewMock.expects("render")
 
-      @view.renderView(selector, viewName, opts)
+      result = @view.renderView(selector, viewName, opts)
+
+      assert.equal(result, childView)
 
       viewMock.verify()
       elementMock.verify()
