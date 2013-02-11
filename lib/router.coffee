@@ -6,7 +6,7 @@ class Agility.Router
     this.router.route path, action, (params...) =>
       this.dispatch(action, params)
   dispatch: (action, params) =>
-    this.trigger("route")
+    this.trigger("route", action)
     [controller, method] = action.split("#")
     instance = new App.Controllers[controller](@app)
     instance[method].apply(instance, params)

@@ -199,7 +199,7 @@
 
     Router.prototype.dispatch = function(action, params) {
       var controller, instance, method, _ref;
-      this.trigger("route");
+      this.trigger("route", action);
       _ref = action.split("#"), controller = _ref[0], method = _ref[1];
       instance = new App.Controllers[controller](this.app);
       return instance[method].apply(instance, params);
