@@ -33,10 +33,11 @@ class Agility.View extends Backbone.View
     view.render()
     view
 
-  view: (name, options) =>
-    view_class = App.Views[name]
-    if view_class?
-      view = new view_class(@app, options)
+  view: (viewClass, options) =>
+    if _.isString(viewClass)
+      viewClass = App.Views[viewClass]
+    if viewClass?
+      view = new viewClass(@app, options)
       @childViews.push(view)
       view
     else

@@ -6,6 +6,9 @@ helper.requireLib('template')
 
 Agility.Template.register "welcome", "Hello {{name}}"
 
+class TestView extends Agility.View
+  template: "welcome"
+
 class App.Views.Test extends Agility.View
   template: "welcome"
 
@@ -66,6 +69,11 @@ describe "View", ->
       mock.verify()
 
   describe "view", ->
+    context "view class passed", ->
+      it "instantiates passed view class", ->
+        child = @view.view(TestView)
+        assert.instanceOf(child, TestView)
+
     context "view class exists", ->
       beforeEach ->
         @child = @view.view('OtherTest')

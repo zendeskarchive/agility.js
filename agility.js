@@ -305,11 +305,13 @@
       return view;
     };
 
-    View.prototype.view = function(name, options) {
-      var view, view_class;
-      view_class = App.Views[name];
-      if (view_class != null) {
-        view = new view_class(this.app, options);
+    View.prototype.view = function(viewClass, options) {
+      var view;
+      if (_.isString(viewClass)) {
+        viewClass = App.Views[viewClass];
+      }
+      if (viewClass != null) {
+        view = new viewClass(this.app, options);
         this.childViews.push(view);
         return view;
       } else {
