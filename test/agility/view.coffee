@@ -137,8 +137,11 @@ describe "View", ->
       _.invoke(mocks, "verify")
 
   describe "destroy", ->
-    it "is noop", ->
+    it "calls stopListening", ->
+      mock = sinon.mock(@view)
+      mock.expects("stopListening")
       @view.destroy()
+      mock.verify()
 
 
 

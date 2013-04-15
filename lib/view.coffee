@@ -48,3 +48,4 @@ class Agility.View extends Backbone.View
     _.invoke(@childViews, "performDestroy")
 
   destroy: =>
+    this.stopListening()

@@ -12,7 +12,7 @@ global.Handlebars = require("handlebars")
 Handlebars.templates = Handlebars.templates || {}
 
 global.Backbone = require('backbone')
-Backbone.setDomLibrary($)
+Backbone.$ = $
 
 exports.requireLib = (name) ->
 	require('../lib/' + name)

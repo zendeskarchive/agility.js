@@ -324,7 +324,9 @@
       return _.invoke(this.childViews, "performDestroy");
     };
 
-    View.prototype.destroy = function() {};
+    View.prototype.destroy = function() {
+      return this.stopListening();
+    };
 
     return View;
 
