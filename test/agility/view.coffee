@@ -118,6 +118,30 @@ describe "View", ->
       elementMock.verify()
       childViewMock.verify()
 
+  describe "appendView", ->
+    selector = "#foo"
+    viewName = "Bar"
+    opts = {foo: "bar"}
+    childViewElement = {}
+    childView = {el: childViewElement, render: ->}
+    element = {append: =>}
+
+    it "instantiates correct view and appends it to selected element", ->
+      viewMock = sinon.mock(@view)
+      viewMock.expects("view").withExactArgs(viewName, opts).returns(childView)
+      viewMock.expects("$").withExactArgs(selector).returns(element)
+      elementMock = sinon.mock(element)
+      elementMock.expects("append").withExactArgs(childViewElement)
+      childViewMock = sinon.mock(childView)
+      childViewMock.expects("render")
+
+      result = @view.appendView(selector, viewName, opts)
+
+      assert.equal(result, childView)
+
+      viewMock.verify()
+      elementMock.verify()
+      childViewMock.verify()
 
   describe "performDestroy", ->
     it "calls destroy on self", ->
