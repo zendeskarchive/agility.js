@@ -55,3 +55,12 @@ class Agility.View extends Backbone.View
 
   destroy: =>
     this.stopListening()
+
+  propagateEvent: (object, eventName, options = {}) =>
+    handler = =>
+      newEventName = options['as'] || eventName
+      args = Array.prototype.slice.apply(arguments)
+      args.unshift(newEventName)
+      this.trigger.apply(this, args)
+
+    object.on(eventName, handler, this)

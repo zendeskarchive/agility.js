@@ -167,5 +167,44 @@ describe "View", ->
       @view.destroy()
       mock.verify()
 
+  describe ".propagateEvent", ->
+    beforeEach ->
+      @observerView = @view.view('Test')
+      @triggerView = @view.view('Test')
 
+    it "propagates the event", ->
+      callback = sinon.spy()
+
+      @observerView.propagateEvent(@triggerView, "the:event")
+      @observerView.on("the:event", callback)
+      @triggerView.trigger("the:event")
+
+      assert(callback.called)
+
+    it "propagates the event under changed name if as options is supplied", ->
+      callback = sinon.spy()
+
+      @observerView.propagateEvent(@triggerView, "the:event", as: "other:event")
+      @observerView.on("other:event", callback)
+      @triggerView.trigger("the:event")
+
+      assert(callback.called)
+
+    it "propagates the event and the attributes passed", ->
+      callback = sinon.spy()
+
+      @observerView.propagateEvent(@triggerView, "the:event")
+      @observerView.on("the:event", callback)
+      @triggerView.trigger("the:event", 1, 'e')
+
+      assert(callback.calledWith(1, 'e'))
+
+    it "propagates the event and the attributes passed event with the as option", ->
+      callback = sinon.spy()
+
+      @observerView.propagateEvent(@triggerView, "the:event", as: "other:event")
+      @observerView.on("other:event", callback)
+      @triggerView.trigger("the:event", 1, 'e')
+
+      assert(callback.calledWith(1, 'e'))
 

@@ -240,6 +240,9 @@
     function View() {
       var app, options;
       app = arguments[0], options = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+
+      this.propagateEvent = __bind(this.propagateEvent, this);
+
       this.destroy = __bind(this.destroy, this);
 
       this.performDestroy = __bind(this.performDestroy, this);
@@ -336,6 +339,24 @@
 
     View.prototype.destroy = function() {
       return this.stopListening();
+    };
+
+    View.prototype.propagateEvent = function(object, eventName, options) {
+      var handler,
+        _this = this;
+
+      if (options == null) {
+        options = {};
+      }
+      handler = function() {
+        var args, newEventName;
+
+        newEventName = options['as'] || eventName;
+        args = Array.prototype.slice.apply(arguments);
+        args.unshift(newEventName);
+        return _this.trigger.apply(_this, args);
+      };
+      return object.on(eventName, handler, this);
     };
 
     return View;
