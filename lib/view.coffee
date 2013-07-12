@@ -39,15 +39,18 @@ class Agility.View extends Backbone.View
     view.render()
     view
 
-  view: (viewClass, options) =>
-    if _.isString(viewClass)
-      viewClass = App.Views[viewClass]
+  view: (viewClassName, options) =>
+    if _.isString(viewClassName)
+      viewClass = App.Views[viewClassName]
+    else
+      viewClass = viewClassName
+
     if viewClass?
       view = new viewClass(@app, options)
       @childViews.push(view)
       view
     else
-      throw new Error("View #{name} not found")
+      throw new Error("View #{viewClassName} not found")
 
   performDestroy: =>
     this.destroy()
