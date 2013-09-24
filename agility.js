@@ -108,9 +108,17 @@
     __extends(Collection, _super);
 
     function Collection() {
-      _ref = Collection.__super__.constructor.apply(this, arguments);
+      this.destroy = __bind(this.destroy, this);
+      this.performDestroy = __bind(this.performDestroy, this);      _ref = Collection.__super__.constructor.apply(this, arguments);
       return _ref;
     }
+
+    Collection.prototype.performDestroy = function() {
+      this.destroy();
+      return this.off();
+    };
+
+    Collection.prototype.destroy = function() {};
 
     return Collection;
 
@@ -118,7 +126,7 @@
 
   Agility.Controller = (function() {
     function Controller(app) {
-      this.app = app;
+      this.performDestroy = __bind(this.performDestroy, this);      this.app = app;
     }
 
     Controller.prototype.view = function(name, options) {
@@ -131,6 +139,8 @@
         throw new Error("View " + name + " not found");
       }
     };
+
+    Controller.prototype.performDestroy = function() {};
 
     return Controller;
 
@@ -328,7 +338,8 @@
 
     View.prototype.performDestroy = function() {
       this.destroy();
-      return _.invoke(this.childViews, "performDestroy");
+      this.remove();
+      return _.invoke(this.childViews.splice(0), "performDestroy");
     };
 
     View.prototype.destroy = function() {
