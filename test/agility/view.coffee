@@ -14,6 +14,9 @@ class App.Views.Test extends Agility.View
 
 class App.Views.OtherTest extends Agility.View
 
+App.Views.Nested = {}
+class App.Views.Nested.Test extends Agility.View
+
 describe "View", ->
   beforeEach ->
     @root = {
@@ -40,7 +43,6 @@ describe "View", ->
         @view.template = null
         @view.render()
         assert.equal(@view.$el.text(), "")
-
 
   describe ".templateContext", ->
     it "returns empty object", ->
@@ -76,10 +78,10 @@ describe "View", ->
 
     context "view class exists", ->
       beforeEach ->
-        @child = @view.view('OtherTest')
+        @child = @view.view('Nested.Test')
 
       it "instantiates appropriate view", ->
-        assert.instanceOf(@child, App.Views.OtherTest)
+        assert.instanceOf(@child, App.Views.Nested.Test)
 
       it "passes app instance", ->
         assert.equal(@child.app, @view.app)
@@ -207,4 +209,3 @@ describe "View", ->
       @triggerView.trigger("the:event", 1, 'e')
 
       assert(callback.calledWith(1, 'e'))
-

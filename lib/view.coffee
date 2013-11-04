@@ -41,7 +41,7 @@ class Agility.View extends Backbone.View
 
   view: (viewClassName, options) =>
     if _.isString(viewClassName)
-      viewClass = App.Views[viewClassName]
+      viewClass = Agility.Helpers.getPath(App.Views, viewClassName)
     else
       viewClass = viewClassName
 
