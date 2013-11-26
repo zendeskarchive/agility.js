@@ -1,6 +1,7 @@
 helper = require('../test_helper')
 sinon = require('sinon')
 
+helper.requireLib('resource_cache')
 helper.requireLib('application')
 
 class TestApp extends Agility.Application
@@ -18,6 +19,10 @@ describe "Application", ->
     it "instantiates router with app", ->
       new_app = new TestApp()
       assert.equal(new_app.router.app, new_app)
+
+    it "instantiates cache with app", ->
+      new_app = new TestApp()
+      assert.equal(new_app.resourceCache.app, new_app)
 
   describe ".run", ->
     it "calls preBoot with initApplication callback", ->

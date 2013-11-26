@@ -1,4 +1,5 @@
 helper = require("../test_helper")
+sinon = require('sinon')
 
 helper.requireLib('model')
 
@@ -8,9 +9,7 @@ class NamespacedModel extends Agility.Model
 class NormalModel extends Agility.Model
 
 describe "Agility.Model", ->
-  
   describe "deserialization", ->
-
     it "parses properly with namespace", ->
       params = { model: { name: "Foo" }}
       model = new NamespacedModel()
@@ -24,7 +23,6 @@ describe "Agility.Model", ->
       assert.equal parsed.name, "Foo"
 
   describe "serialization", ->
-
     it "namespaces if required", ->
       params = { model: { name: "Foo" }}
       model = new NamespacedModel(params.model)
@@ -36,8 +34,19 @@ describe "Agility.Model", ->
       assert.deepEqual model.toJSON(), params
 
   describe "className", ->
-
     it "returns the name of the model's class", ->
       model = new NamespacedModel()
       assert.equal model.className(), "NamespacedModel"
+
+  describe "cache change notification", ->
+    before ->
+      App.instance.resourceCache =
+        update: sinon.spy()
+
+    context "cache instantiated on app instance", ->
+      it "calls cache invalidate", ->
+        model = new NormalModel(foo: "bar")
+        model.set(foo: "baz")
+        assert(App.instance.resourceCache.update.calledWith(NormalModel.name, model.id))
+
 

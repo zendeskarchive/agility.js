@@ -2,6 +2,7 @@ class Agility.Application
   routes: {}
   constructor: ->
     @router = new Agility.Router(this)
+    @resourceCache = new Agility.ResourceCache(this)
 
   populateRoutes: ->
     @router.route(path, method) for path, method of @routes

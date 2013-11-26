@@ -19,5 +19,6 @@ exports.requireLib = (name) ->
 
 global.Agility = {}
 global.App = {}
+global.App.instance = {}
 App.Controllers = {}
 App.Views = {}

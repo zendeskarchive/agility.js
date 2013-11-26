@@ -33,6 +33,7 @@
       this.initApplication = __bind(this.initApplication, this);
       this.bindNotFound = __bind(this.bindNotFound, this);
       this.router = new Agility.Router(this);
+      this.resourceCache = new Agility.ResourceCache(this);
     }
 
     Application.prototype.populateRoutes = function() {
@@ -162,6 +163,8 @@
     __extends(Model, _super);
 
     function Model() {
+      this.invalidateResourceCache = __bind(this.invalidateResourceCache, this);
+      this.initialize = __bind(this.initialize, this);
       _ref1 = Model.__super__.constructor.apply(this, arguments);
       return _ref1;
     }
@@ -170,6 +173,16 @@
 
     Model.prototype.url = function() {
       return Model.__super__.url.call(this) + this.urlSuffix;
+    };
+
+    Model.prototype.initialize = function() {
+      return this.on("change", this.invalidateResourceCache);
+    };
+
+    Model.prototype.invalidateResourceCache = function() {
+      if (App.instance) {
+        return App.instance.resourceCache.update(this.className(), this.id);
+      }
     };
 
     Model.prototype.parse = function(data) {
@@ -198,6 +211,54 @@
     return Model;
 
   })(Backbone.Model);
+
+  Agility.ResourceCache = (function() {
+    function ResourceCache(app) {
+      this.update = __bind(this.update, this);
+      this.get = __bind(this.get, this);
+      this.store = __bind(this.store, this);
+      this.has = __bind(this.has, this);
+      this.getOrStore = __bind(this.getOrStore, this);
+      this.app = app;
+      this.cache = {};
+    }
+
+    ResourceCache.prototype.getOrStore = function(namespace, id, factory) {
+      var model;
+      if (this.has(namespace, id)) {
+        return this.get(namespace, id);
+      } else {
+        model = factory();
+        this.store(namespace, model);
+        return model;
+      }
+    };
+
+    ResourceCache.prototype.has = function(namespace, model) {
+      return this.get(namespace, model) !== void 0;
+    };
+
+    ResourceCache.prototype.store = function(namespace, model) {
+      if (!_.has(this.cache, namespace)) {
+        this.cache[namespace] = new Agility.Collection;
+      }
+      return this.cache[namespace].add(model);
+    };
+
+    ResourceCache.prototype.get = function(namespace, id) {
+      if (_.has(this.cache, namespace)) {
+        return this.cache[namespace].get(id);
+      }
+    };
+
+    ResourceCache.prototype.update = function(namespace, id) {
+      var _ref2;
+      return (_ref2 = this.get(namespace, id)) != null ? _ref2.fetch() : void 0;
+    };
+
+    return ResourceCache;
+
+  })();
 
   Agility.Router = (function() {
     function Router(app) {
