@@ -35,14 +35,3 @@ describe "Agility.ResourceCache", ->
           another_model
         )
         assert.equal(result, model)
-
-  describe "update", ->
-    it "calles fetch on found instance", ->
-      cache = new Agility.ResourceCache
-      model = new Agility.Model(id: 5)
-      spy = sinon.stub(model, "fetch")
-      cache.getOrStore("Deal", 5, (namespace, id) ->
-        model
-      )
-      cache.update("Deal", 5)
-      assert(spy.calledOnce)

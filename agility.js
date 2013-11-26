@@ -163,7 +163,7 @@
     __extends(Model, _super);
 
     function Model() {
-      this.invalidateResourceCache = __bind(this.invalidateResourceCache, this);
+      this.updateResourceCache = __bind(this.updateResourceCache, this);
       this.initialize = __bind(this.initialize, this);
       _ref1 = Model.__super__.constructor.apply(this, arguments);
       return _ref1;
@@ -176,12 +176,14 @@
     };
 
     Model.prototype.initialize = function() {
-      return this.on("change", this.invalidateResourceCache);
+      return this.on("change", this.updateResourceCache);
     };
 
-    Model.prototype.invalidateResourceCache = function() {
-      if (App.instance) {
-        return App.instance.resourceCache.update(this.className(), this.id);
+    Model.prototype.updateResourceCache = function() {
+      var cached_instance;
+      if (App.instance && App.instance.resourceCache.has(this.className(), this.id)) {
+        cached_instance = App.instance.resourceCache.get(this.className(), this.id);
+        return cached_instance.set(this.attributes);
       }
     };
 
@@ -214,7 +216,6 @@
 
   Agility.ResourceCache = (function() {
     function ResourceCache(app) {
-      this.update = __bind(this.update, this);
       this.get = __bind(this.get, this);
       this.store = __bind(this.store, this);
       this.has = __bind(this.has, this);
@@ -228,7 +229,7 @@
       if (this.has(namespace, id)) {
         return this.get(namespace, id);
       } else {
-        model = factory();
+        model = factory(namespace, id);
         this.store(namespace, model);
         return model;
       }
@@ -249,11 +250,6 @@
       if (_.has(this.cache, namespace)) {
         return this.cache[namespace].get(id);
       }
-    };
-
-    ResourceCache.prototype.update = function(namespace, id) {
-      var _ref2;
-      return (_ref2 = this.get(namespace, id)) != null ? _ref2.fetch() : void 0;
     };
 
     return ResourceCache;
