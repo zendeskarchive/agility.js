@@ -5,11 +5,12 @@ class Agility.Model extends Backbone.Model
     super() + this.urlSuffix
 
   initialize: =>
-    this.on("change", this.invalidateResourceCache)
+    this.on("change", this.updateResourceCache)
 
-  invalidateResourceCache: =>
-    if App.instance
-      App.instance.resourceCache.update(this.className(), this.id)
+  updateResourceCache: =>
+    if App.instance && App.instance.resourceCache.has(this.className(), this.id)
+      cached_instance = App.instance.resourceCache.get(this.className(), this.id)
+      cached_instance.set(this.attributes)
 
   parse: (data) ->
     if @namespace then data[@namespace] else data

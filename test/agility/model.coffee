@@ -39,14 +39,17 @@ describe "Agility.Model", ->
       assert.equal model.className(), "NamespacedModel"
 
   describe "cache change notification", ->
+    model = new NormalModel(id: 5, foo: "bar")
+    cached_model = new NormalModel(id: 5, foo: "bar")
+
     before ->
       App.instance.resourceCache =
-        update: sinon.spy()
+        has: sinon.stub().returns(true)
+        get: sinon.stub().returns(cached_model)
 
     context "cache instantiated on app instance", ->
-      it "calls cache invalidate", ->
-        model = new NormalModel(foo: "bar")
+      it "updates cached model", ->
         model.set(foo: "baz")
-        assert(App.instance.resourceCache.update.calledWith(NormalModel.name, model.id))
+        assert.deepEqual(model.attributes, cached_model.attributes)
 
 

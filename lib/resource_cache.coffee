@@ -7,7 +7,7 @@ class Agility.ResourceCache
     if this.has(namespace, id)
       return this.get(namespace, id)
     else
-      model = factory()
+      model = factory(namespace, id)
       this.store(namespace, model)
       return model
 
@@ -22,6 +22,3 @@ class Agility.ResourceCache
   get: (namespace, id) =>
     if _.has(@cache, namespace)
       @cache[namespace].get(id)
-
-  update: (namespace, id) =>
-    this.get(namespace, id)?.fetch()
