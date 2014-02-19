@@ -55,6 +55,9 @@ class Agility.View extends Backbone.View
   performDestroy: =>
     this.destroy()
     this.remove()
+    this.destroyChildViews()
+
+  destroyChildViews: =>
     _.invoke(@childViews.splice(0), "performDestroy")
 
   destroy: =>

@@ -317,6 +317,7 @@
       app = arguments[0], options = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       this.propagateEvent = __bind(this.propagateEvent, this);
       this.destroy = __bind(this.destroy, this);
+      this.destroyChildViews = __bind(this.destroyChildViews, this);
       this.performDestroy = __bind(this.performDestroy, this);
       this.view = __bind(this.view, this);
       this.appendView = __bind(this.appendView, this);
@@ -399,6 +400,10 @@
     View.prototype.performDestroy = function() {
       this.destroy();
       this.remove();
+      return this.destroyChildViews();
+    };
+
+    View.prototype.destroyChildViews = function() {
       return _.invoke(this.childViews.splice(0), "performDestroy");
     };
 
