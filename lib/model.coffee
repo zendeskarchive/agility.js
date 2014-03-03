@@ -8,8 +8,8 @@ class Agility.Model extends Backbone.Model
     this.on("change", this.updateResourceCache)
 
   updateResourceCache: =>
-    if App.instance && App.instance.resourceCache.has(this.className(), this.id)
-      cached_instance = App.instance.resourceCache.get(this.className(), this.id)
+    if this.cachingKey && App.instance && App.instance.resourceCache.has(this.cachingKey(), this.id)
+      cached_instance = App.instance.resourceCache.get(this.cachingKey(), this.id)
       cached_instance.set(this.attributes)
 
   parse: (data) ->

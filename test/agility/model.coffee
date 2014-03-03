@@ -6,7 +6,12 @@ helper.requireLib('model')
 class NamespacedModel extends Agility.Model
   namespace: "model"
 
+  cachingKey: =>
+    "NormalModel"
+
 class NormalModel extends Agility.Model
+  cachingKey: =>
+    "NormalModel"
 
 describe "Agility.Model", ->
   describe "deserialization", ->
