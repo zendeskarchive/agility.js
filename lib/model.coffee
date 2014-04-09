@@ -4,7 +4,8 @@ class Agility.Model extends Backbone.Model
   url: ->
     super() + this.urlSuffix
 
-  initialize: =>
+  constructor: (options...) ->
+    super(options...)
     this.on("change", this.updateResourceCache)
 
   updateResourceCache: =>
