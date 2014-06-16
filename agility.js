@@ -213,6 +213,7 @@
 
   Agility.ResourceCache = (function() {
     function ResourceCache(app) {
+      this.clear = __bind(this.clear, this);
       this.get = __bind(this.get, this);
       this.store = __bind(this.store, this);
       this.has = __bind(this.has, this);
@@ -247,6 +248,10 @@
       if (_.has(this.cache, namespace)) {
         return this.cache[namespace].get(id);
       }
+    };
+
+    ResourceCache.prototype.clear = function() {
+      return this.cache = {};
     };
 
     return ResourceCache;

@@ -22,3 +22,6 @@ class Agility.ResourceCache
   get: (namespace, id) =>
     if _.has(@cache, namespace)
       @cache[namespace].get(id)
+
+  clear: =>
+    @cache = {}
