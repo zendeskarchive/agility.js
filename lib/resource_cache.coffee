@@ -8,6 +8,7 @@ class Agility.ResourceCache
       return this.get(namespace, id)
     else
       model = factory(namespace, id)
+      model.set(from_resource_cache: true)
       this.store(namespace, model)
       return model
 

@@ -13,11 +13,12 @@ describe "Agility.ResourceCache", ->
         cache.getOrStore("Deal", 5, (namespace, id) ->
           assert.equal(namespace, "Deal")
           assert.equal(id, 5)
+          new Agility.Model
         )
 
       it "adds function result to store and returns it", ->
         cache = new Agility.ResourceCache
-        model = sinon.spy()
+        model = new Agility.Model
         result = cache.getOrStore("Deal", 5, (namespace, id) ->
           model
         )
